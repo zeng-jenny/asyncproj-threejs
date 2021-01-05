@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Async Week Project - Three.js</title>
+		<style>
+			body {
+				margin: 0;
+        background-color: grey;
+			}
+			canvas {
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<script src="/three.js"></script>
+		<script src="/OrbitControls.js"></script>
+		<script>
+			// scene is what we are viewing/where the object will be in/what user will be interacting with
+			const scene = new THREE.Scene();
+			// camera is like a virtual camera - what the user will see the world/app through (diff cam for diff use cases like 2D vs 3D)
+			const camera = new THREE.PerspectiveCamera(
+				75,
+				window.innerWidth / window.innerHeight,
+				0.1,
+				1000
+			);
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setClearColor('#e5e5e5')
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			// eventListener for when we update our viewport (making our browser bigger/smaller)
+			window.addEventListener("resize", function () {
+				const width = window.innerWidth;
+				const height = window.innerHeight;
+				renderer.setSize(width, height);
+				camera.aspect = width / height;
+				camera.updateProjectionMatrix();
+			});
+
+
+			// add control to the object
+      const controls = new THREE.OrbitControls(camera, renderer.domElement)
+      ;
+			// create the shape
+			const geometry = new THREE.BoxGeometry(2, 2, 2);
+			// create a material, color, or image texture
+			const cubeMaterials = [
+				new THREE.MeshLambertMaterial({
+					map: new THREE.TextureLoader().load(
+						"/1545785770825.png"
+					),
+					side: THREE.DoubleSide,
+				}),
+				new THREE.MeshLambertMaterial({
+					map: new THREE.TextureLoader().load(
+            "/1545785770825.png"
+					),
+					side: THREE.DoubleSide,
+				}),
+				new THREE.MeshLambertMaterial({
+					map: new THREE.TextureLoader().load(
+						"/161012-gh-facebook-profile-2x.jpg"
+					),
+					side: THREE.DoubleSide,
+				}),
+				new THREE.MeshLambertMaterial({
+					map: new THREE.TextureLoader().load(
+						"/161012-gh-facebook-profile-2x.jpg"
+					),
+					side: THREE.DoubleSide,
+        }),
+        new THREE.MeshLambertMaterial({
+					map: new THREE.TextureLoader().load(
+						"/161012-gh-facebook-profile-2x.jpg"
+					),
+					side: THREE.DoubleSide,
+				}),
+				new THREE.MeshLambertMaterial({
+					map: new THREE.TextureLoader().load(
+            "/161012-gh-facebook-profile-2x.jpg"
+					),
+					side: THREE.DoubleSide,
+				}),
+			];
+			const cube = new THREE.Mesh(geometry, cubeMaterials);
+			scene.add(cube);
+			cube.position.x = -5;
+			const cube2 = new THREE.Mesh(geometry, cubeMaterials);
+			scene.add(cube2)
+			cube2.position.x = 5;
+			let light = new THREE.PointLight(0xFFFFFF, 1, 500)
+			light.position.set(1,1,25);
+			scene.add(light)
+
+
+
+			// the cube and camera are rendered at the origin(inside each other) so we need to change the camera position slightly
+      camera.position.z = 10;
+
+			// game logic
+			const update = function () {
+				// we are going to rotate our cube in every frame
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+				cube2.rotation.x += 0.01;
+				cube2.rotation.y += 0.01;
+			};
+
+			// draw scene
+			const render = function () {
+				renderer.render(scene, camera);
+			};
+
+			// run game loop (update, render, repeat)
+			const GameLoop = function () {
+				requestAnimationFrame(GameLoop);
+				update();
+				render();
+			};
+			GameLoop();
+		</script>
+	</body>
+</html>
