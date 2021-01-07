@@ -18,7 +18,7 @@ h1{
   margin: 10 auto;
 }
  p {
-  border-right: solid 3px rgba(0,255,0,.75);
+  border-right: solid 2px rgba(0,255,0,.75);
   white-space: nowrap;
   overflow: hidden;
   font-size: 24px;
